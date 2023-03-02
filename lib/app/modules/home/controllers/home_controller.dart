@@ -1,12 +1,16 @@
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
-  //TODO: Implement HomeController
+import '../providers/user_providers.dart';
 
-  final count = 0.obs;
+class HomeController extends GetxController with StateMixin<List<dynamic>> {
   @override
   void onInit() {
     super.onInit();
+    UserProvider().getUser().then((resp) {
+      change(resp, status: RxStatus.success());
+    }, onError: (err) {
+      change(null, status: RxStatus.error(err.toString()));
+    });
   }
 
   @override
@@ -18,6 +22,4 @@ class HomeController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }
